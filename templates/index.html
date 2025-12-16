@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDS Dashboard - Intrusion Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <h1>IDS Dashboard</h1>
+                </div>
+                <div class="header-info">
+                    <span class="status" id="connectionStatus">
+                        <i class="fas fa-circle"></i> Connecting...
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Stats Cards -->
+            <section class="stats-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i> Global Statistics
+                </h2>
+                
+                <div class="stats-grid">
+                    <!-- Total Flows -->
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Flows</h3>
+                            <p class="stat-value" id="totalFlows">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Attacks Detected -->
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Attacks Detected</h3>
+                            <p class="stat-value" id="totalAttacks">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Benign Traffic -->
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Benign Traffic</h3>
+                            <p class="stat-value" id="benignFlows">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Model Accuracy -->
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Model Accuracy</h3>
+                            <p class="stat-value" id="accuracy">-</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="charts-grid">
+                    
+                    <!-- Attack Types Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-pie"></i> Attack Types Distribution</h3>
+                            <button class="refresh-btn" onclick="loadAttackTypes()">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="attackTypesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Top Sources Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-bar"></i> Top Attack Sources</h3>
+                            <button class="refresh-btn" onclick="loadTopSources()">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="topSourcesChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Attacks Table -->
+            <section class="table-section">
+                <div class="table-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-list"></i> Recent Attacks Detected
+                    </h2>
+                    <button class="refresh-btn" onclick="loadAttacks()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="attacks-table" id="attacksTable">
+                        <thead>
+                            <tr>
+                                <th>Flow ID</th>
+                                <th>Source IP</th>
+                                <th>Dest IP</th>
+                                <th>Ports</th>
+                                <th>Attack Type</th>
+                                <th>Predicted</th>
+                                <th>Packets</th>
+                                <th>Status</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attacksTableBody">
+                            <tr>
+                                <td colspan="9" class="loading">
+                                    <i class="fas fa-spinner fa-spin"></i> Loading attacks...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 IDS Dashboard - Intrusion Detection System with Neo4j & AI</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
